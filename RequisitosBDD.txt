@@ -1,0 +1,16 @@
+Requisitos BDD:
+
+Gestión de Clientes:
+Agregar, editar y borrar información de clientes.
+Listar todos los clientes.
+
+Gestión de Sesiones:
+Mostrar disponibilidad.
+Agendar, editar y cancelar sesiones.
+
+Gestión de Pagos:
+Registrar pagos realizados y pendientes.
+Listar todos los pagos.
+
+Resumen Mensual:
+Mostrar un resumen mensual de citas y ganancias.
