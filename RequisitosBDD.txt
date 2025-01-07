@@ -14,3 +14,8 @@ Listar todos los pagos.
 
 Resumen Mensual:
 Mostrar un resumen mensual de citas y ganancias.
+
+Mas:
+-Asistencia de paciente (cuando vino y falto)
+-Vacaciones (agregar lapsos de falta de pacientes)
+

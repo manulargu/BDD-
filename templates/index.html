@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container {
+            flex: 1;
+            padding: 20px;
+        }
+        .table-container {
+            flex: 2;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        .checklist {
+            cursor: pointer;
+        }
+        .checklist.checked {
+            background-color: green;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-container">
+            <h1>Pacientes</h1>
+            <table>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>Monto</th>
+                    <th>Día</th>
+                    <th>Hora</th>
+                    <th>Pagos</th>
+                    <th>Asistencia</th>
+                    <th>Vacaciones</th>
+                </tr>
+                {% for cliente in clientes %}
+                <tr>
+                    <td><a href="{{ url_for('cliente', nombre=cliente.nombre_completo) }}">{{ cliente.nombre_completo }}</a></td>
+                    <td>{{ '{:,.0f}'.format(cliente.monto) }}</td>
+                    <td>{{ cliente.dia_semana }}</td>
+                    <td>{{ cliente.hora }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('toggle_pago', nombre=cliente.nombre_completo) }}">
+                            <button type="submit" class="checklist">
+                                {{ cliente.pagos }}
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="{{ url_for('toggle_asistencia', nombre=cliente.nombre_completo) }}">
+                            <button type="submit" class="checklist">
+                                {{ cliente.asistencia }}
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        {% if cliente.fecha_inicio and cliente.fecha_fin %}
+                            {{ cliente.fecha_inicio }} - {{ cliente.fecha_fin }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <h1>Horarios</h1>
+            <table>
+                <tr>
+                    <th>Día</th>
+                    <th>Horarios Ocupados</th>
+                </tr>
+                {% for horario in horarios_ocupados %}
+                <tr>
+                    <td>
+                        {% if horario.dia_semana == '1' %}Lunes{% elif horario.dia_semana == '2' %}Martes{% elif horario.dia_semana == '3' %}Miércoles{% elif horario.dia_semana == '4' %}Jueves{% elif horario.dia_semana == '5' %}Viernes{% endif %}
+                    </td>
+                    <td>{{ horario.horarios_ocupados }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="form-container">
+            <h1>Agregar Paciente</h1>
+            <form method="post" action="{{ url_for('create_cliente') }}">
+                <div class="form-group">
+                    <label for="nombre_completo">Nombre Completo</label>
+                    <input type="text" id="nombre_completo" name="nombre_completo" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" id="telefono" name="telefono" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="monto">Monto</label>
+                    <input type="text" id="monto" name="monto" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="dia_semana">Día de la Semana (1-5)</label>
+                    <input type="text" id="dia_semana" name="dia_semana" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="hora">Hora</label>
+                    <input type="text" id="hora" name="hora" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="fecha_inicio">Fecha de Inicio de Vacaciones</label>
+                    <input type="text" id="fecha_inicio" name="fecha_inicio" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="fecha_fin">Fecha de Fin de Vacaciones</label>
+                    <input type="text" id="fecha_fin" name="fecha_fin" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Agregar">
+                </div>
+            </form>
+            <h1>Editar Paciente</h1>
+            <form method="post" action="{{ url_for('edit_cliente') }}">
+                <div class="form-group">
+                    <label for="nombre_completo">Nombre Completo</label>
+                    <input type="text" id="nombre_completo" name="nombre_completo" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Editar">
+                </div>
+            </form>
+            <h1>Eliminar Paciente</h1>
+            <form method="post" action="{{ url_for('delete_cliente') }}">
+                <div class="form-group">
+                    <label for="nombre_completo">Nombre Completo</label>
+                    <input type="text" id="nombre_completo" name="nombre_completo" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Eliminar">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

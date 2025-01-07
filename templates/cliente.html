@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Cliente</title>
+</head>
+<body>
+    <h1>Detalles del Cliente</h1>
+    <h2>{{ cliente.nombre_completo }}</h2>
+    <p>Teléfono: {{ cliente.telefono }}</p>
+    <p>Monto: {{ cliente.monto }}</p>
+
+    <h3>Sesiones</h3>
+    <ul>
+        {% for sesion in sesiones %}
+            <li>{{ sesion.dia_semana }} {{ sesion.hora }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Vacaciones</h3>
+    <ul>
+        {% for vacacion in vacaciones %}
+            <li>{{ vacacion.fecha_inicio }} - {{ vacacion.fecha_fin }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
